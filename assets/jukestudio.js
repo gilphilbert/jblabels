@@ -147,6 +147,7 @@ function buildPreview(img,o) {
   var imgID = img.id;
   var imgClass = img.classList;
   parser = new DOMParser();
+  // <-- consider making this standalone svg files, this will reduce the size of the vfs to include only fonts
   data=parser.parseFromString(atob(pdfMake.vfs[o.style.style+'.svg']),"text/xml");
   var svg = data.querySelector('svg');
   if(typeof imgID !== 'undefined') {
