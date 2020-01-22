@@ -15,9 +15,40 @@ $body-background-color: $beige;
 $text: $grey-dark;
 
 $input-shadow: none;
-//$input-border-color: transparent;
-//$input-radius: 0;
 
-@import "bulma-0.7.5/bulma.sass";
+// *----- BULMA -----* //
+//@import "bulma-0.7.5/bulma.sass";
+
+@import "bulma-0.7.5/sass/utilities/initial-variables.sass";
+@import "bulma-0.7.5/sass/utilities/functions.sass";
+@import "bulma-0.7.5/sass/utilities/derived-variables.sass";
+@import "bulma-0.7.5/sass/utilities/mixins.sass";
+@import "bulma-0.7.5/sass/utilities/controls.sass";
+
+@import "bulma-0.7.5/sass/base/_all";
+
+@import "bulma-0.7.5/sass/elements/box.sass";
+@import "bulma-0.7.5/sass/elements/button.sass";
+@import "bulma-0.7.5/sass/elements/container.sass";
+@import "bulma-0.7.5/sass/elements/content.sass";
+@import "bulma-0.7.5/sass/elements/image.sass";
+@import "bulma-0.7.5/sass/elements/other.sass";
+@import "bulma-0.7.5/sass/elements/table.sass";
+@import "bulma-0.7.5/sass/elements/title.sass";
+
+@import "bulma-0.7.5/sass/form/shared.sass";
+@import "bulma-0.7.5/sass/form/input-textarea.sass";
+@import "bulma-0.7.5/sass/form/checkbox-radio.sass";
+@import "bulma-0.7.5/sass/form/select.sass";
+@import "bulma-0.7.5/sass/form/tools.sass";
+
+@import "bulma-0.7.5/sass/components/modal.sass";
+@import "bulma-0.7.5/sass/components/navbar.sass";
+
+@import "bulma-0.7.5/sass/grid/columns.sass";
+
+@import "bulma-0.7.5/sass/layout/_all";
+// *----- BULMA -----* //
+
 @import "checkradio.sass";
 @import "juke.sass";

@@ -9,7 +9,7 @@ fi
 (
     echo -n "this.pdfMake = this.pdfMake || {}; this.pdfMake.vfs = {" 
     start=1
-    for file in *.{svg,png,ttf} ; do
+    for file in *.ttf ; do
         if [ $start -eq 0 ]
         then
             echo -n ",";

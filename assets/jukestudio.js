@@ -143,56 +143,64 @@ function alterSVGText(img,text) {
   document.querySelector('#'+img+' .artist').textContent=text.artist;
 }
 function buildPreview(img,o) {
-  img=document.getElementById(img);
-  var imgID = img.id;
-  var imgClass = img.classList;
   parser = new DOMParser();
-  // <-- consider making this standalone svg files, this will reduce the size of the vfs to include only fonts
-  data=parser.parseFromString(atob(pdfMake.vfs[o.style.style+'.svg']),"text/xml");
-  var svg = data.querySelector('svg');
-  if(typeof imgID !== 'undefined') {
-    svg.id=imgID;
-  }
-  for(var i=0;i<imgClass.length;i++) svg.classList.add(imgClass[i]);
-  svg.classList.add('replaced-svg');
-  svg.removeAttribute('xmlns:a');
-  if(!svg.getAttribute('viewBox') && svg.getAttribute('height') && svg.getAttribute('width')) {
-    svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('height') + ' ' + svg.getAttribute('width'))
-  }
+  // <-- consider making this standalone svg files, this will reduce the size of the vfs to include only fonts ##------------------------------------------- -->
+  //data=parser.parseFromString(atob(pdfMake.vfs[o.style.style+'.svg']),"text/xml");
+  //var svg = data.querySelector('svg');
 
-  if(!o.artistTint) {
-    o.style.artistTint=((o.style.artistFillColor)?shadeColor2(o.style.primaryColor,0.8):'#ffffff');
-    o.style.titleTint=((o.style.titleFillColor)?shadeColor2(o.style.primaryColor,0.8):'#ffffff');
-  }
-  var des=svg.querySelector('#design');
-  if(des!==null) {
-    des.style.fill=o.style.primaryColor;
-    if(o.style.artistFillColor) svg.querySelector('#artist_fill').style.fill=o.style.artistTint;
-    if(o.style.titleFillColor) svg.querySelector('#title_fill').style.fill=o.style.titleTint;
-  }
+  fetch(`designs/${o.style.style}.svg`)
+    .then(r => r.text())
+    .then(text => {
+      var svg = document.createRange().createContextualFragment(text).querySelector('svg')
 
-  var g=svg.querySelector('g');
-  var options={"x":112.5,"y":19,"text-anchor":"middle","font-size":o.style.font.titleSize+"px","font-family":o.style.font.name,"class":"aside"};
-  addSVGText(g,stringBreaker(o.aside,o.style),options);
+      img=document.getElementById(img);
+      var imgID = img.id;
+      var imgClass = img.classList;
 
-  options["y"]=61;
-  options["class"]="bside"
-  addSVGText(g,stringBreaker(o.bside,o.style),options);
+      if(typeof imgID !== 'undefined') {
+        svg.id=imgID;
+      }
+      for(var i=0;i<imgClass.length;i++) svg.classList.add(imgClass[i]);
+      svg.classList.add('replaced-svg');
+      svg.removeAttribute('xmlns:a');
+      if(!svg.getAttribute('viewBox') && svg.getAttribute('height') && svg.getAttribute('width')) {
+        svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('height') + ' ' + svg.getAttribute('width'))
+      }
 
-  options["y"]=37;
-  options["alignment-baseline"]="central";
-  options["font-size"]=o.style.font.artistSize+"px";
-  options["class"]="artist"
-  if(o.style.mergeArtist) {
-    addSVGText(g,o.artist+((o.artistb=='')?'':' / '+o.artistb),options);
-  } else {
-    options["y"]=28;
-    addSVGText(g,o.artist,options);
-    options["y"]=45;
-    addSVGText(g,((o.artistb!=="")?o.artistb:o.artist),options);
-  }
+      if(!o.artistTint) {
+        o.style.artistTint=((o.style.artistFillColor)?shadeColor2(o.style.primaryColor,0.8):'#ffffff');
+        o.style.titleTint=((o.style.titleFillColor)?shadeColor2(o.style.primaryColor,0.8):'#ffffff');
+      }
+      var des=svg.querySelector('#design');
+      if(des!==null) {
+        des.style.fill=o.style.primaryColor;
+        if(o.style.artistFillColor) svg.querySelector('#artist_fill').style.fill=o.style.artistTint;
+        if(o.style.titleFillColor) svg.querySelector('#title_fill').style.fill=o.style.titleTint;
+      }
 
-  img.replaceWith(svg);
+      var g=svg.querySelector('g');
+      var options={"x":112.5,"y":19,"text-anchor":"middle","font-size":o.style.font.titleSize+"px","font-family":o.style.font.name,"class":"aside"};
+      addSVGText(g,stringBreaker(o.aside,o.style),options);
+
+      options["y"]=61;
+      options["class"]="bside"
+      addSVGText(g,stringBreaker(o.bside,o.style),options);
+
+      options["y"]=37;
+      options["alignment-baseline"]="central";
+      options["font-size"]=o.style.font.artistSize+"px";
+      options["class"]="artist"
+      if(o.style.mergeArtist) {
+        addSVGText(g,o.artist+((o.artistb=='')?'':' / '+o.artistb),options);
+      } else {
+        options["y"]=28;
+        addSVGText(g,o.artist,options);
+        options["y"]=45;
+        addSVGText(g,((o.artistb!=="")?o.artistb:o.artist),options);
+      }
+
+      img.replaceWith(svg);
+    })
 };
 
 //----- END HELPER FUNCTIONS
